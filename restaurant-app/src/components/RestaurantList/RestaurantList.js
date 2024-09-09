@@ -68,7 +68,7 @@ export default class RestaurantList extends Component {
   };
 
   render() {
-    const { searchTerm, sortOption, isLoading, showSearch } = this.state;
+    const { searchTerm, sortOption, isLoading } = this.state;
     const filteredAndSortedList = this.getFilteredAndSortedList();
     const hasResults = filteredAndSortedList.length > 0;
 

@@ -7,12 +7,11 @@ import {
   useLocation
 } from 'react-router-dom';
 import Home from './components/Home';
-import RestaurantCreate from './components/RestaurantCreate';
+import RestaurantCreate from './components/RestaurantCreate/RestaurantCreate';
 import RestaurantDetail from './components/RestaurantDetail';
 import RestaurantList from './components/RestaurantList/RestaurantList';
 import RestaurantSearch from './components/RestaurantSearch';
 import RestaurantUpdate from './components/RestaurantUpdate';
-import logo from './logo.jpg'; // Path to your logo
 
 function Navbar() {
   const location = useLocation();

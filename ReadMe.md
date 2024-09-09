@@ -27,3 +27,5 @@ Welcome to the Restaurant App! This application allows users to search, sort, an
 ### Screenshots
 
 ![Alt text](/screenshot/RestaurantList.png)
+
+![Alt text](/screenshot/RestaurantCreate.png)
