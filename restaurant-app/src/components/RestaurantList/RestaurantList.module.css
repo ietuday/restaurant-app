@@ -1,0 +1,235 @@
+/* Typography and gradient background */
+.restaurantList h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #fff; /* White text color for contrast */
+    background: linear-gradient(45deg, #ff6f61, #d76d77);
+    -webkit-background-clip: text; /* For Chrome, Safari */
+    -moz-background-clip: text;    /* For Firefox */
+    background-clip: text;         /* Standard property */
+    -webkit-text-fill-color: transparent; /* For Chrome, Safari */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+.restaurantList {
+    padding: 30px;
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+/* Controls for search and sorting */
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.searchBar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.searchIcon {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.5em;
+}
+
+.searchIcon:hover {
+    background-color: #0056b3;
+}
+
+.searchInput {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 500px;
+    margin-left: 10px; /* Adjust margin to position the input correctly */
+}
+
+.sortSelect {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.sortSelect:focus {
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+.filterContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.filterIcon {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.5em;
+}
+
+.filterIcon:hover {
+    background-color: #0056b3;
+}
+
+/* Spinner for loading state */
+.spinner {
+    font-size: 1.5em;
+    color: #007bff;
+}
+
+/* Individual restaurant cards */
+.restaurantContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.restaurantCard {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 25px;
+    margin: 15px;
+    width: 350px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.restaurantCard:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for the card header */
+.restaurantHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurantHeader h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.6em;
+}
+
+.restaurantActions {
+    display: flex;
+    gap: 10px; /* Spacing between buttons */
+}
+
+.restaurantActionBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 1.1em; /* Adjust font size for better visibility */
+}
+
+.editBtn {
+    background-color: #28a745;
+}
+
+.deleteBtn {
+    background-color: #dc3545;
+}
+
+.restaurantActionBtn:hover {
+    background-color: #0056b3;
+}
+
+.editBtn:hover {
+    background-color: #218838;
+}
+
+.deleteBtn:hover {
+    background-color: #c82333;
+}
+
+/* Load more button */
+.loadMoreBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: background-color 0.2s ease;
+}
+
+.loadMoreBtn:hover {
+    background-color: #0056b3;
+}
+
+/* Typography improvements */
+.restaurantCard p {
+    color: #666;
+    font-size: 1.1em;
+    margin: 8px 0;
+}
+
+p strong {
+    color: #000;
+}
+
+/* No results message */
+/* Styling for the no results message */
+.noResults {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+    color: #666;
+    background-color: #f8f9fa; /* Light background color for contrast */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px; /* Space from other content */
+}
+  
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .restaurantCard {
+        width: 100%;
+        margin: 10px 0;
+    }
+}
