@@ -12,6 +12,8 @@ export default class RestaurantList extends Component {
       isLoading: true,
       visibleItems: 10,
       showSearch: false,
+      isModalOpen: false,
+      selectedRestaurant: null,
     };
   }
 
@@ -67,8 +69,49 @@ export default class RestaurantList extends Component {
       .slice(0, visibleItems);
   };
 
+  handleEdit = (restaurant) => {
+    this.setState({ selectedRestaurant: restaurant, isModalOpen: true });
+  };
+
+  handleModalChange = (e) => {
+    const { name, value } = e.target;
+    this.setState((prevState) => ({
+      selectedRestaurant: { ...prevState.selectedRestaurant, [name]: value },
+    }));
+  };
+
+  handleUpdate = (e) => {
+    e.preventDefault();
+    const { selectedRestaurant, list } = this.state;
+
+    const updatedList = list.map((item) =>
+      item.id === selectedRestaurant.id ? selectedRestaurant : item
+    );
+
+    fetch(`http://localhost:5000/restaurants/${selectedRestaurant.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedRestaurant),
+    })
+      .then((response) => response.json())
+      .then((updatedRestaurant) => {
+        this.setState({
+          list: updatedList,
+          isModalOpen: false,
+          selectedRestaurant: null,
+        });
+      })
+      .catch((error) => console.error('Error updating data:', error));
+  };
+
+  closeModal = () => {
+    this.setState({ isModalOpen: false, selectedRestaurant: null });
+  };
+
   render() {
-    const { searchTerm, sortOption, isLoading } = this.state;
+    const { searchTerm, sortOption, isLoading, isModalOpen, selectedRestaurant } = this.state;
     const filteredAndSortedList = this.getFilteredAndSortedList();
     const hasResults = filteredAndSortedList.length > 0;
 
@@ -96,6 +139,7 @@ export default class RestaurantList extends Component {
             </select>
           </div>
         </div>
+
         {isLoading ? (
           <div className={styles.spinner}>Loading...</div>
         ) : (
@@ -107,19 +151,31 @@ export default class RestaurantList extends Component {
                     <div className={styles.restaurantHeader}>
                       <h2>{item.name}</h2>
                       <div className={styles.restaurantActions}>
-                        <button className={`${styles.restaurantActionBtn} ${styles.editBtn}`}>✏️ Edit</button>
+                        <button
+                          className={`${styles.restaurantActionBtn} ${styles.editBtn}`}
+                          onClick={() => this.handleEdit(item)}
+                        >
+                          ✏️ Edit
+                        </button>
                         <button className={`${styles.restaurantActionBtn} ${styles.deleteBtn}`}>🗑️ Delete</button>
                       </div>
                     </div>
-                    <p><strong>Address:</strong> {item.address}</p>
-                    <p><strong>Rating:</strong> {item.rating} ★</p>
-                    <p><strong>Email:</strong> {item.email}</p>
+                    <p>
+                      <strong>Address:</strong> {item.address}
+                    </p>
+                    <p>
+                      <strong>Rating:</strong> {item.rating} ★
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {item.email}
+                    </p>
                   </div>
                 ))
               ) : (
                 <div className={styles.noResults}>No results found</div>
               )}
             </div>
+
             {hasResults && filteredAndSortedList.length < this.state.list.length && (
               <button className={styles.loadMoreBtn} onClick={this.handleLoadMore}>
                 Load More
@@ -127,8 +183,66 @@ export default class RestaurantList extends Component {
             )}
           </div>
         )}
+
+        {isModalOpen && (
+          <div className={styles.modal}>
+            <div className={styles.modalContent}>
+              <button className={styles.closeBtn} onClick={this.closeModal}>
+                ×
+              </button>
+              <h2>Edit Restaurant</h2>
+              {selectedRestaurant && (
+                <form onSubmit={this.handleUpdate}>
+                  <div>
+                    <label>Name:</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={selectedRestaurant.name}
+                      onChange={this.handleModalChange}
+                    />
+                  </div>
+                  <div>
+                    <label>Address:</label>
+                    <input
+                      type="text"
+                      name="address"
+                      value={selectedRestaurant.address}
+                      onChange={this.handleModalChange}
+                    />
+                  </div>
+                  <div>
+                    <label>Rating:</label>
+                    <input
+                      type="number"
+                      name="rating"
+                      value={selectedRestaurant.rating}
+                      onChange={this.handleModalChange}
+                    />
+                  </div>
+                  <div>
+                    <label>Email:</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={selectedRestaurant.email}
+                      onChange={this.handleModalChange}
+                    />
+                  </div>
+                  <div className={styles.modalActions}>
+                    <button type="submit" className={styles.updateBtn}>
+                      Update
+                    </button>
+                    <button type="button" onClick={this.closeModal} className={styles.cancelBtn}>
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
-
 }

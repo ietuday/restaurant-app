@@ -8,10 +8,8 @@ import {
 } from 'react-router-dom';
 import Home from './components/Home';
 import RestaurantCreate from './components/RestaurantCreate/RestaurantCreate';
-import RestaurantDetail from './components/RestaurantDetail';
 import RestaurantList from './components/RestaurantList/RestaurantList';
-import RestaurantSearch from './components/RestaurantSearch';
-import RestaurantUpdate from './components/RestaurantUpdate';
+
 
 function Navbar() {
   const location = useLocation();
@@ -50,9 +48,6 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/list" element={<RestaurantList />} />
         <Route path="/create" element={<RestaurantCreate />} />
-        <Route path="/update" element={<RestaurantUpdate />} />
-        <Route path="/search" element={<RestaurantSearch />} />
-        <Route path="/detail" element={<RestaurantDetail />} />
       </Routes>
     </Router>
   );

@@ -121,9 +121,9 @@
     },
     {
       "id": "18",
-      "name": "Arby's",
-      "address": "Hyderabad",
-      "rating": 4.3,
+      "name": "ggg",
+      "address": "djdhjhd",
+      "rating": "2.5",
       "email": "arbys@customercare.com"
     },
     {
@@ -191,9 +191,9 @@
     },
     {
       "id": "28",
-      "name": "Blaze Pizza",
+      "name": "Blaze kjkkkj",
       "address": "Bangalore",
-      "rating": 4.6,
+      "rating": "4.85858",
       "email": "blazepizza@customercare.com"
     },
     {
@@ -307,6 +307,13 @@
       "address": "Sirka Colliery, Near Durga Mandap, Argada, Ramgrah Cantt",
       "rating": "5",
       "email": "TestUser456@gmail.com"
+    },
+    {
+      "id": "38e9",
+      "name": "ksvsfklklsfksfksfjkfsj",
+      "address": "ksvsfklklsfksfksfjkfsj",
+      "rating": "4",
+      "email": "p2jd9x7o@outlook.com"
     }
   ]
 }
