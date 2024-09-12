@@ -416,6 +416,19 @@ p strong {
   justify-content: flex-end;
   gap: 10px; /* Space between buttons */
 }
+/* RestaurantList.module.css */
+.pagination button {
+  padding: 10px;
+  margin: 0 5px;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.pagination .activePage {
+  background-color: #333;
+  color: white;
+}
 
   
   

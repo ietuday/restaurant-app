@@ -11,6 +11,8 @@ export default class RestaurantList extends Component {
       sortOption: 'name',
       isLoading: true,
       visibleItems: 10,
+      currentPage: 1, // Track current page
+      itemsPerPage: 5, // Number of items per page for pagination
       showSearch: false,
       isModalOpen: false,
       selectedRestaurant: null,
@@ -33,29 +35,19 @@ export default class RestaurantList extends Component {
   };
 
   handleSearch = (e) => {
-    this.setState({ searchTerm: e.target.value });
+    this.setState({ searchTerm: e.target.value, currentPage: 1 });
   };
 
   handleSort = (e) => {
-    this.setState({ sortOption: e.target.value });
+    this.setState({ sortOption: e.target.value, currentPage: 1 });
   };
 
-  handleLoadMore = () => {
-    this.setState((prevState) => ({
-      visibleItems: prevState.visibleItems + 10,
-    }));
-  };
-
-  toggleSearch = () => {
-    this.setState((prevState) => ({
-      showSearch: !prevState.showSearch,
-    }));
-  };
-
+  // Filter, sort, and paginate the restaurant list
   getFilteredAndSortedList = () => {
-    const { list, searchTerm, sortOption, visibleItems } = this.state;
+    const { list, searchTerm, sortOption, currentPage, itemsPerPage } = this.state;
 
-    return list
+    // Filter and sort the list
+    const filteredList = list
       .filter((item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.address.toLowerCase().includes(searchTerm.toLowerCase())
@@ -67,8 +59,23 @@ export default class RestaurantList extends Component {
           return b.rating - a.rating;
         }
         return 0;
-      })
-      .slice(0, visibleItems);
+      });
+
+    // Paginate the filtered and sorted list
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return filteredList.slice(indexOfFirstItem, indexOfLastItem);
+  };
+
+  // Function to handle pagination
+  paginate = (pageNumber) => {
+    this.setState({ currentPage: pageNumber });
+  };
+
+  toggleSearch = () => {
+    this.setState((prevState) => ({
+      showSearch: !prevState.showSearch,
+    }));
   };
 
   handleEdit = (restaurant) => {
@@ -112,12 +119,10 @@ export default class RestaurantList extends Component {
     this.setState({ isModalOpen: false, selectedRestaurant: null });
   };
 
-  // New function to confirm delete
   confirmDelete = (restaurant) => {
     this.setState({ showDeleteConfirm: true, restaurantToDelete: restaurant });
   };
 
-  // New function to handle delete
   handleDelete = () => {
     const { restaurantToDelete, list } = this.state;
     fetch(`http://localhost:5000/restaurants/${restaurantToDelete.id}`, {
@@ -143,13 +148,20 @@ export default class RestaurantList extends Component {
       searchTerm,
       sortOption,
       isLoading,
+      currentPage,
+      itemsPerPage,
       isModalOpen,
       selectedRestaurant,
       showDeleteConfirm,
       restaurantToDelete,
     } = this.state;
+
     const filteredAndSortedList = this.getFilteredAndSortedList();
-    const hasResults = filteredAndSortedList.length > 0;
+    const totalRestaurants = this.state.list.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.address.toLowerCase().includes(searchTerm.toLowerCase())
+    ).length;
+    const totalPages = Math.ceil(totalRestaurants / itemsPerPage);
 
     return (
       <div className={styles.restaurantList}>
@@ -181,7 +193,7 @@ export default class RestaurantList extends Component {
         ) : (
           <div>
             <div className={styles.restaurantContainer}>
-              {hasResults ? (
+              {filteredAndSortedList.length > 0 ? (
                 filteredAndSortedList.map((item, i) => (
                   <div className={styles.restaurantCard} key={i}>
                     <div className={styles.restaurantHeader}>
@@ -217,14 +229,24 @@ export default class RestaurantList extends Component {
               )}
             </div>
 
-            {hasResults && filteredAndSortedList.length < this.state.list.length && (
-              <button className={styles.loadMoreBtn} onClick={this.handleLoadMore}>
-                Load More
-              </button>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => this.paginate(i + 1)}
+                    className={currentPage === i + 1 ? styles.activePage : ''}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
             )}
           </div>
         )}
 
+        {/* Edit Modal */}
         {isModalOpen && (
           <div className={styles.modal}>
             <div className={styles.modalContent}>
@@ -284,6 +306,7 @@ export default class RestaurantList extends Component {
           </div>
         )}
 
+        {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
           <div className={styles.deleteModal}>
             <div className={styles.modalContent}>
