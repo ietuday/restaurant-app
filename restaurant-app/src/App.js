@@ -6,7 +6,7 @@ import {
   Link,
   useLocation
 } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 import RestaurantCreate from './components/RestaurantCreate/RestaurantCreate';
 import RestaurantList from './components/RestaurantList/RestaurantList';
 
@@ -25,15 +25,6 @@ function Navbar() {
         </li>
         <li>
           <Link to="/create" className={location.pathname === '/create' ? 'active' : ''}>Create</Link>
-        </li>
-        <li>
-          <Link to="/update" className={location.pathname === '/update' ? 'active' : ''}>Update</Link>
-        </li>
-        <li>
-          <Link to="/search" className={location.pathname === '/search' ? 'active' : ''}>Search</Link>
-        </li>
-        <li>
-          <Link to="/detail" className={location.pathname === '/detail' ? 'active' : ''}>Detail</Link>
         </li>
       </ul>
     </nav>
