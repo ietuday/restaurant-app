@@ -14,6 +14,8 @@ export default class RestaurantList extends Component {
       showSearch: false,
       isModalOpen: false,
       selectedRestaurant: null,
+      showDeleteConfirm: false,
+      restaurantToDelete: null,
     };
   }
 
@@ -110,8 +112,42 @@ export default class RestaurantList extends Component {
     this.setState({ isModalOpen: false, selectedRestaurant: null });
   };
 
+  // New function to confirm delete
+  confirmDelete = (restaurant) => {
+    this.setState({ showDeleteConfirm: true, restaurantToDelete: restaurant });
+  };
+
+  // New function to handle delete
+  handleDelete = () => {
+    const { restaurantToDelete, list } = this.state;
+    fetch(`http://localhost:5000/restaurants/${restaurantToDelete.id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        const updatedList = list.filter((item) => item.id !== restaurantToDelete.id);
+        this.setState({
+          list: updatedList,
+          showDeleteConfirm: false,
+          restaurantToDelete: null,
+        });
+      })
+      .catch((error) => console.error('Error deleting data:', error));
+  };
+
+  closeDeleteConfirm = () => {
+    this.setState({ showDeleteConfirm: false, restaurantToDelete: null });
+  };
+
   render() {
-    const { searchTerm, sortOption, isLoading, isModalOpen, selectedRestaurant } = this.state;
+    const {
+      searchTerm,
+      sortOption,
+      isLoading,
+      isModalOpen,
+      selectedRestaurant,
+      showDeleteConfirm,
+      restaurantToDelete,
+    } = this.state;
     const filteredAndSortedList = this.getFilteredAndSortedList();
     const hasResults = filteredAndSortedList.length > 0;
 
@@ -157,7 +193,12 @@ export default class RestaurantList extends Component {
                         >
                           ✏️ Edit
                         </button>
-                        <button className={`${styles.restaurantActionBtn} ${styles.deleteBtn}`}>🗑️ Delete</button>
+                        <button
+                          className={`${styles.restaurantActionBtn} ${styles.deleteBtn}`}
+                          onClick={() => this.confirmDelete(item)}
+                        >
+                          🗑️ Delete
+                        </button>
                       </div>
                     </div>
                     <p>
@@ -239,6 +280,22 @@ export default class RestaurantList extends Component {
                   </div>
                 </form>
               )}
+            </div>
+          </div>
+        )}
+
+        {showDeleteConfirm && (
+          <div className={styles.deleteModal}>
+            <div className={styles.modalContent}>
+              <p>Are you sure you want to delete {restaurantToDelete?.name}?</p>
+              <div className={styles.modalActions}>
+                <button onClick={this.handleDelete} className={styles.confirmDeleteBtn}>
+                  Yes, Delete
+                </button>
+                <button onClick={this.closeDeleteConfirm} className={styles.cancelBtn}>
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         )}

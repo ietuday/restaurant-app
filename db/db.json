@@ -85,13 +85,6 @@
       "email": "fiveguys@customercare.com"
     },
     {
-      "id": "13",
-      "name": "Chick-fil-A",
-      "address": "Pune",
-      "rating": 4.6,
-      "email": "chickfila@customercare.com"
-    },
-    {
       "id": "14",
       "name": "Panda Express",
       "address": "Mumbai",
@@ -188,13 +181,6 @@
       "address": "Delhi",
       "rating": 4.3,
       "email": "papajohns@customercare.com"
-    },
-    {
-      "id": "28",
-      "name": "Blaze kjkkkj",
-      "address": "Bangalore",
-      "rating": "4.85858",
-      "email": "blazepizza@customercare.com"
     },
     {
       "id": "29",

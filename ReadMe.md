@@ -32,3 +32,4 @@ Welcome to the Restaurant App! This application allows users to search, sort, an
 
 ![Alt text](/screenshot/RestaurantUpdate.png)
 
+![Alt text](/screenshot/RestaurantDelete.png)
